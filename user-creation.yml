@@ -1,0 +1,180 @@
+---
+
+- hosts: linuxsysadmins
+
+  remote_user: ansible
+
+  become: yes
+
+  become_method: sudo
+
+  gather_facts: no
+
+  connection: ssh
+
+  tasks:
+
+   - name: Add group "linuxadmins" to remote server
+
+     group:
+
+       name: linuxadmins
+
+       gid: 2000
+
+       state: present
+
+
+
+   - name: Add group "ibglntd" to remote server
+
+     group:
+
+       name: ibglntd
+
+       gid: 2001
+
+       state: present
+
+
+
+   - name: Add group "webtekdi" to remote server
+
+     group:
+
+       name: warehouse
+
+       gid: 2002
+
+       state: present 
+
+
+
+   - name: Add user “ibgadmin” to remote server
+
+     user:
+
+       name: ibgadmin
+
+       comment: "Privileged User"
+
+       uid: 3001
+
+       group: linuxadmins
+
+       groups: ibglntd,webtekdi
+
+       append: yes
+
+       shell: /bin/bash
+
+       generate_ssh_key: yes
+
+       ssh_key_bits: 2048
+
+       ssh_key_file: .ssh/id_rsa
+
+
+
+   - name: Add user "Anshul" to remote server
+
+     user:
+
+       name: anshul
+
+       comment: "Accountant UnPrivileged User"
+
+       uid: 3002
+
+       group: ibglntd
+
+       shell: /bin/bash
+
+       generate_ssh_key: yes
+
+       ssh_key_bits: 2048
+
+       ssh_key_file: .ssh/id_rsa
+
+
+
+   - name: Add user “prashant” to remote server
+
+     user:
+
+       name: prashant
+
+       comment: "Content creator UnPrivileged User"
+
+       uid: 3003
+
+       group: ibglntd
+
+       shell: /bin/bash
+
+       generate_ssh_key: yes
+
+       ssh_key_bits: 2048
+
+       ssh_key_file: .ssh/id_rsa
+
+
+
+   - name: Add user “manjeeri” to remote server
+
+     user:
+
+       name: manjeeri
+
+       comment: "Unix Admin Privileged User"
+
+       uid: 3004
+
+       group: linuxadmins
+
+       groups: ibglntd,webtekdi
+
+       append: yes
+
+       shell: /bin/sh
+
+       generate_ssh_key: yes
+
+       ssh_key_bits: 2048
+
+       ssh_key_file: .ssh/id_rsa
+
+
+
+   - name: Add user “purvesh” to remote server
+
+     user:
+
+       name: purvesh
+
+       comment: "Temp account"
+
+       uid: 3005
+
+       group: webtekdi
+
+       shell: /bin/bash
+
+       createhome: no
+
+       password: ''
+
+
+
+   - name: Remove user "Games" from remote server
+
+     user:
+
+       name: games
+
+       state: absent
+
+       remove: yes
+
+...
+
